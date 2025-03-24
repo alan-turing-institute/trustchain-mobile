@@ -187,5 +187,14 @@
   "presentationSuccessButton": "Ok",
   "presentationFailTitle": "Failed presentation",
   "presentationFailSubtitle": "Presentation was successfully presented",
-  "presentationFailButton": "Ok"
+  "presentationFailButton": "Ok",
+  "stalePresentationWarning": "This presentation is more than {ageInMinutes} minutes old",
+  "@stalePresentationWarning": {
+    "placeholders": {
+      "ageInMinutes": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  }
 }

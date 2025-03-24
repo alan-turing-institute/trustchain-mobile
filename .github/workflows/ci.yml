@@ -8,6 +8,8 @@ on:
       - main
       - e2etests
   pull_request:
+    branches:
+      - main
 
 env:
   flutter_version: "1.27.0-1.0.pre"
@@ -21,26 +23,26 @@ jobs:
     steps:
       
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         path: main
 
     - name: Cache didkit
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       id: cache-didkit
       with:
         path: didkit
         key: ${{ runner.os }}-${{ env.didkit_version }}
 
     - name: Cache ssi
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       id: cache-ssi
       with:
         path: ssi
         key: ${{ runner.os }}-${{ env.ssi_version }}
 
     - name: Cache Flutter dependencies
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       id: cache-flutter
       with:
         path: /opt/hostedtoolcache/flutter
@@ -48,14 +50,14 @@ jobs:
 
     # Clones didkit
     - name: Clone didkit
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: spruceid/didkit
         path: didkit
 
     # Clones ssi
     - name: Clone SSI
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: spruceid/ssi
         path: ssi
@@ -74,7 +76,7 @@ jobs:
         channel: 'dev'
 
     - name: SETUP | Rust
-      uses: ATiltedTree/setup-rust@v1
+      uses: dtolnay/rust-toolchain@stable
       with:
         rust-version: nightly
   
@@ -94,7 +96,7 @@ jobs:
     #   working-directory: ./main
     #   run: flutter build apk --release
 
-    # - uses: actions/upload-artifact@v2
+    # - uses: actions/upload-artifact@v4
     #   with:
     #     name: app-release.apk
     #     path: ./main/build/app/outputs/apk/release/app-release.apk
@@ -120,20 +122,20 @@ jobs:
     steps:
       
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         path: main
 
     # Clones didkit
     - name: Clone didkit
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: spruceid/didkit
         path: didkit
 
     # Clones ssi
     - name: Clone SSI
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: spruceid/ssi
         path: ssi
@@ -146,7 +148,7 @@ jobs:
         channel: 'dev'
 
     - name: SETUP | Rust
-      uses: ATiltedTree/setup-rust@v1
+      uses: dtolnay/rust-toolchain@stable
       with:
         rust-version: nightly
   

@@ -47,9 +47,26 @@ class _PresentationViewerState
     try {
       await trustchain_ffi.vpVerifyPresentation(
           presentation: widget.presentation, opts: opts);
-      setState(() {
-        verification = VerificationState.Verified;
-      });
+      // If the presentation is more than 15 minutes old, display a warning.
+      assert(json.containsKey('proof'));
+      assert(json['proof'].containsKey('created'));
+      final vp_timestamp = DateTime.parse(json['proof']['created']);
+      final vp_age = DateTime.now().difference(vp_timestamp);
+      if (vp_age < Duration(minutes: 15)) {
+        setState(() {
+          verification = VerificationState.Verified;
+        });
+      } else {
+        setState(() {
+          verification = VerificationState.VerifiedWithWarning;
+        });
+        final localizations = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: VerificationState.VerifiedWithWarning.color,
+          content:
+              Text(localizations.stalePresentationWarning(vp_age.inMinutes)),
+        ));
+      }
     } on FfiException catch (err) {
       print(err);
       setState(() {
